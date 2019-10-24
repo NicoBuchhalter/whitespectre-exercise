@@ -3,13 +3,17 @@ require 'rails_helper'
 describe GroupEvent, type: :model do
   it { should belong_to :creator }
 
-
   describe '#date_order validation' do 
   	context 'when start_date is after end_date' do 
   		let(:group_event) { build(:group_event, start_date: Date.today, end_date: Date.yesterday) }
 
-  		it 'should add errors to start_date' do
+  		it 'should not be valid' do
   			expect(group_event).not_to be_valid
+  		end
+
+  		it 'should add errors to start_date' do
+  			group_event.valid?
+  			expect(group_event.errors[:start_date]).to include 'Must be previous or equal than end date'
   		end
   	end
   end

@@ -13,11 +13,13 @@ class GroupEvent < ApplicationRecord
   end
 
   def set_start_date! end_date:, duration:
-  	update! start_date: Date.parse(end_date) - duration.days
+    end_date = Date.parse(end_date) if end_date.is_a? String
+  	update! start_date: end_date - duration.to_i.days
   end
 
   def set_end_date! start_date:, duration:
-  	update! end_date: Date.parse(start_date) + duration.days
+    start_date = Date.parse(start_date) if start_date.is_a? String
+  	update! end_date: start_date + duration.to_i.days
   end
 
   def publish

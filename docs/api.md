@@ -31,9 +31,11 @@ Otherwise, it will respond with a status code 400 (Bad Request), specifying the 
 
 ```json
 {
-    "email": [
-        "has already been taken"
-    ]
+    "errors": {
+        "email": [
+            "has already been taken"
+        ]
+    }
 }
 ```
 
@@ -161,9 +163,11 @@ Otherwise, it will respond with a status code 400 (Bad Request), specifying the 
 
 ```json
 {
-    "creator": [
-        "must exist"
-    ]
+    "errors": {
+        "creator": [
+            "must exist"
+        ] 
+    }
 }
 ```
 
@@ -297,10 +301,12 @@ In case the GroupEvent existed and upadte didn't fail, the answer will have a st
 Otherwise, it will respond with a status code 400 (Bad Request), specifying the errors in the response. For example: 
 
 ```json
-{
-    "start_date": [
-        "Must be previous or equal than end date"
-    ]
+{   
+    "errors": {
+        "start_date": [
+            "Must be previous or equal than end date"
+        ]     
+    }
 }
 ```
 

@@ -8,5 +8,6 @@ describe User, type: :model do
 	  it { is_expected.to validate_presence_of :email }
 	  it { should allow_value('nico.buch.1010@gmail.com').for :email }
 	  it { should_not allow_value('nico.buch.1010.com').for :email }
+	  it { should have_many :group_events }
 	end
 end

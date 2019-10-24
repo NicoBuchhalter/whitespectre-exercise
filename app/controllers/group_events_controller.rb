@@ -6,7 +6,7 @@ class GroupEventsController < ApplicationController
 
 	def create
 		event = GroupEvent.create(group_event_params.except(:duration))
-		return render json: event.errors.messages, status: :bad_request unless event.valid?
+		return render json: { errors: event.errors.messages }, status: :bad_request unless event.valid?
 		set_event_duration(event) if must_set_duration?
 		render json: event, status: :created
 	end
@@ -17,7 +17,7 @@ class GroupEventsController < ApplicationController
 
 	def update
 		group_event.update group_event_params.except(:duration)
-		return render json: group_event.errors.messages, status: :bad_request unless group_event.valid?
+		return render json: { errors: group_event.errors.messages }, status: :bad_request unless group_event.valid?
 		set_event_duration(group_event) if must_set_duration?
 		render json: group_event, status: :ok
 	end
@@ -50,15 +50,16 @@ class GroupEventsController < ApplicationController
 	end
 
 	def set_event_duration event
-		if params[:start_date].present?
-			event.set_end_date! start_date: params[:start_date], duration: params[:duration]
+		if group_event_params[:start_date].present?
+			event.set_end_date! start_date: group_event_params[:start_date], duration: group_event_params[:duration]
 		else
-			event.set_start_date! end_date: params[:end_date], duration: params[:duration]
+			event.set_start_date! end_date: group_event_params[:end_date], duration: group_event_params[:duration]
 		end
 	end
 
 	# ^ is XOR operator in Ruby. If both start and end date params are present, duration will be ignored.
 	def must_set_duration?
-		params[:duration].present? && (params[:start_date].present? ^ params[:end_date].present?)
+		group_event_params[:duration].present? && 
+		(group_event_params[:start_date].present? ^ group_event_params[:end_date].present?)
 	end
 end
