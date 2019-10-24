@@ -43,10 +43,6 @@ Whitespectre Exercise
   bundle exec rake db:create db:migrate
 ```
 
-### 4- Add Master Key
-	
-- You should have been provided with a master key. Create the file `/cofig/master.key` and place it inside.
-
 ### 6- Start Server
 
 ```bash
@@ -61,6 +57,13 @@ To run them:
 ```bash
 	bundle exec rspec spec 
 ```
+
+## Tradeoffs
+
+- `Location` attribute of a `GroupEvent` is a simple string. Normally I would have added some latitude and longitude with geolocation but as there were no specifications, for the purpose of this exercise I thought it would be ok just a string. 
+- `Description` attribute is a text data. In this way, any kind of format that would like to be saved will fit.
+- `Duration` attribute is not really saved in database. I just save `start_date` and `end_date` and calculate it. `GroupEvent` model has methods to set start_date and end_date given the other two, as requested.  
+
 
 ## About
 

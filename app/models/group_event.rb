@@ -5,17 +5,19 @@ class GroupEvent < ApplicationRecord
 
   validate :date_order
 
+  scope :published, -> { where(published: true) }
+
   def duration 
   	return nil unless start_date.present? && end_date.present?
   	(end_date - start_date).to_i
   end
 
   def set_start_date! end_date:, duration:
-  	update! start_date: end_date - duration.days
+  	update! start_date: Date.parse(end_date) - duration.days
   end
 
   def set_end_date! start_date:, duration:
-  	update! end_date: start_date + duration.days
+  	update! end_date: Date.parse(start_date) + duration.days
   end
 
   def publish
